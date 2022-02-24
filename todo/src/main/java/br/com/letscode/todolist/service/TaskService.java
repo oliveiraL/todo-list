@@ -1,5 +1,6 @@
 package br.com.letscode.todolist.service;
 
+import br.com.letscode.todolist.config.UserContext;
 import br.com.letscode.todolist.exception.TaskNotFoundException;
 import br.com.letscode.todolist.model.Task;
 import br.com.letscode.todolist.repository.TaskRepository;
@@ -14,8 +15,10 @@ import java.util.List;
 public class TaskService {
 
     private final TaskRepository taskRepository;
+    private final UserContext userContext;
 
     public List<Task> getAll(){
+        var userId = userContext.getUserId();
         return Streamable.of(taskRepository.findAll()).toList();
     }
 
