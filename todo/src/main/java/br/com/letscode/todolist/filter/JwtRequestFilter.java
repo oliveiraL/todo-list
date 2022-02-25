@@ -32,6 +32,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        if (request.getRequestURI().contains("/h2-console")){
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         final String requestTokenHeader = request.getHeader("Authorization");
         if (StringUtils.isBlank(requestTokenHeader) || !requestTokenHeader.startsWith("Bearer")){
             resolver.resolveException(request, response, null, new AccessDeniedException());
