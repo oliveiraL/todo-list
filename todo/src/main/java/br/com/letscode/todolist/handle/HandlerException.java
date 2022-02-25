@@ -1,5 +1,6 @@
 package br.com.letscode.todolist.handle;
 
+import br.com.letscode.todolist.exception.AccessDeniedException;
 import br.com.letscode.todolist.exception.TaskNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,11 @@ public class HandlerException {
     @ExceptionHandler({TaskNotFoundException.class, })
     public ResponseEntity<Error> hadlerTaskNotFound(){
         return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Error("not found", "error"));
+    }
+
+    @ExceptionHandler({AccessDeniedException.class, })
+    public ResponseEntity<Error> hadlerAccessDenied(){
+        return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Error("Access denied", "Access denied"));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
