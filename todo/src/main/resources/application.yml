@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:file:/Users/luciooliveira/workspace/lets_code/turma_808/todo-list/database
+    url: jdbc:h2:file:./database
     username: sa
     password: password
     driverClassName: org.h2.Driver

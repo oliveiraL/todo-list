@@ -5,8 +5,11 @@ import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
@@ -15,18 +18,29 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Task {
-        @Id @GeneratedValue
+        @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
         private Integer id;
         private UUID userId;
         private String title;
         private String description;
         private State state;
         private Date createdAt;
-        private Date updateA;
+        private Date updateAt;
         @OneToMany(mappedBy = "task")
         private Collection<Comment> comments;
+
+
+        @PrePersist
+        private void preSave(){
+                createdAt = new Date();
+        }
+
+        @PreUpdate
+        private void preUpdate(){
+                updateAt = new Date();
+        }
 }
