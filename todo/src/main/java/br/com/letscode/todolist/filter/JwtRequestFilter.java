@@ -11,8 +11,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
+import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -20,7 +23,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class JwtRequestFilter extends OncePerRequestFilter {
+public class JwtRequestFilter implements Filter {
 
 
     private final JwtUtil jwtTokenUtil;
@@ -31,7 +34,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private HandlerExceptionResolver resolver;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws ServletException, IOException {
+        HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) res;
         if (request.getRequestURI().contains("/h2-console")){
             filterChain.doFilter(request, response);
             return;
@@ -52,4 +57,5 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         userContext.setUserId(UUID.fromString(userId));
         filterChain.doFilter(request, response);
     }
+
 }
