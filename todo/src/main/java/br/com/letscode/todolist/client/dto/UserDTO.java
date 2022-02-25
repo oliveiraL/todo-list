@@ -5,7 +5,6 @@ import java.util.UUID;
 public record UserDTO(
         UUID externalId,
         String email,
-        String password,
         String username
 ) {
 }

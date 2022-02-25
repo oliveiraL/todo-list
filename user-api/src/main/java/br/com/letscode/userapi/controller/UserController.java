@@ -9,12 +9,14 @@ import br.com.letscode.userapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("users")
@@ -39,5 +41,11 @@ public class UserController {
     @GetMapping
     public List<UserDTO> getAll(){
         return service.getAll().stream().map(mapper::userToUserDTO).toList();
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<UserDTO> getUserId(@PathVariable UUID id){
+        final var user = service.getByExternalId(id);
+        return ResponseEntity.ok(mapper.userToUserDTO(user));
     }
 }

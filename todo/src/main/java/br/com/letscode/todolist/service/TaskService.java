@@ -1,5 +1,6 @@
 package br.com.letscode.todolist.service;
 
+import br.com.letscode.todolist.client.UserApiClient;
 import br.com.letscode.todolist.config.UserContext;
 import br.com.letscode.todolist.exception.TaskNotFoundException;
 import br.com.letscode.todolist.model.Task;
@@ -17,9 +18,11 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final UserContext userContext;
+    private final UserApiClient userApiClient;
 
     public List<Task> getAll(){
         var userId = userContext.getUserId();
+        var user = userApiClient.getUser(userId);
         return taskRepository.findByUserId(userId);
     }
 

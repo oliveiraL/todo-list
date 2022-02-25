@@ -1,6 +1,7 @@
 package br.com.letscode.userapi.service;
 
 import br.com.letscode.userapi.exception.AccessDeniedException;
+import br.com.letscode.userapi.exception.UserNotFoundExeption;
 import br.com.letscode.userapi.model.User;
 import br.com.letscode.userapi.repository.UserRepository;
 import br.com.letscode.userapi.utils.JwtUtil;
@@ -22,7 +23,7 @@ public class UserService {
     public String autenticationUser(User user) {
         return userRepository.findByUsername(user.getUsername())
                 .map(userDB -> {
-                    if (userDB.getPassword().equals(passwordEncoder.encode(user.getPassword()))) {
+                    if (passwordEncoder.matches(user.getPassword(), userDB.getPassword())) {
                         return userDB.getExternalId();
                     }
                     return null;
@@ -33,11 +34,16 @@ public class UserService {
 
     public User save(User user){
         user.setExternalId(UUID.randomUUID());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
     public List<User> getAll() {
         return userRepository.findAll();
+    }
+
+    public User getByExternalId(UUID id){
+        return userRepository.findByExternalId(id).orElseThrow(UserNotFoundExeption::new);
     }
 
 

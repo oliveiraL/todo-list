@@ -6,7 +6,7 @@ import br.com.letscode.userapi.dto.UserLoginDTO;
 import br.com.letscode.userapi.model.User;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserMapper {
 
     User userDTOToUser(UserDTO dto);
