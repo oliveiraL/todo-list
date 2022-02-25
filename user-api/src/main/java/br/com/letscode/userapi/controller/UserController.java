@@ -28,7 +28,9 @@ public class UserController {
 
     @PostMapping("autentication")
     public ResponseEntity<TokenDTO> autentication(@RequestBody UserLoginDTO dto){
-        final var token = service.autenticationUser(mapper.userLoginDTOToUser(dto));
+        final var token = service.autenticationUser(
+                mapper.userLoginDTOToUser(dto)
+        );
         return ResponseEntity.ok(new TokenDTO(token));
     }
 

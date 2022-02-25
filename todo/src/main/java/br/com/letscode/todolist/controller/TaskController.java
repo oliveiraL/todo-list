@@ -3,7 +3,6 @@ package br.com.letscode.todolist.controller;
 import br.com.letscode.todolist.converts.TaskMapper;
 import br.com.letscode.todolist.dto.TaskCreateDTO;
 import br.com.letscode.todolist.dto.TaskDTO;
-import br.com.letscode.todolist.model.Task;
 import br.com.letscode.todolist.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
