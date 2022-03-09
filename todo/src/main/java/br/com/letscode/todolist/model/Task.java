@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +32,7 @@ public class Task {
         private State state;
         private Date createdAt;
         private Date updateAt;
-        @OneToMany(mappedBy = "task")
+        @OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
         private Collection<Comment> comments;
 
 

@@ -24,11 +24,11 @@ class TaskServiceImpTest {
 
     public UserContext userContext = new UserContext();
 
-    public TaskServiceImp taskServiceImp;
+    public TaskService taskServiceImp;
 
     @BeforeEach
     void init(){
-        taskServiceImp = new TaskServiceImp(taskRepository, userContext);
+        taskServiceImp = new TaskService(taskRepository, userContext);
     }
 
     @Test

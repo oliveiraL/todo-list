@@ -8,11 +8,8 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
-  redis:
-    port: 6380
-
   profiles:
-    active: dev
+    active: homol
 
 
 server:
