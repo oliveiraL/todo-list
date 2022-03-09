@@ -19,4 +19,7 @@ public class AppConfig {
         registrationBean.addUrlPatterns("/api/*");
         return registrationBean;
     }
+
+
+
 }

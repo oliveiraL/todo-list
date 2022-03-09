@@ -24,8 +24,6 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 public class JwtRequestFilter implements Filter {
-
-
     private final JwtUtil jwtTokenUtil;
     private final UserContext userContext;
 
