@@ -1,6 +1,7 @@
 package br.com.letscode.todolist.service;
 
 import br.com.letscode.todolist.config.UserContext;
+import br.com.letscode.todolist.exception.TaskNotFoundException;
 import br.com.letscode.todolist.model.State;
 import br.com.letscode.todolist.model.Task;
 import br.com.letscode.todolist.repository.TaskRepository;
@@ -9,7 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.UUID;
 
@@ -17,14 +20,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @DisplayName("Task Service Test")
-class TaskServiceImpTest {
+//@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+class TaskServiceTest {
 
     @Autowired
-    public TaskRepository taskRepository;
+    private TaskRepository taskRepository;
 
-    public UserContext userContext = new UserContext();
+    private UserContext userContext = new UserContext();
 
-    public TaskService taskServiceImp;
+    private TaskService taskServiceImp;
 
     @BeforeEach
     void init(){
@@ -41,10 +45,22 @@ class TaskServiceImpTest {
     void saveTaskWhenSuccessFul(){
         var uuid = UUID.randomUUID();
         userContext.setUserId(uuid);
-        var taskSaved = taskServiceImp.save(createTask());
+        var taskOld = createTask();
+
+        var taskSaved = taskServiceImp.save(taskOld);
+
         Assertions.assertThat(taskSaved).isNotNull();
         Assertions.assertThat(taskSaved.getId()).isNotNull();
         Assertions.assertThat(taskSaved.getUserId()).isEqualTo(uuid);
+        Assertions.assertThat(taskSaved.getTitle()).isEqualTo("task de test");
+    }
+
+    @Test
+    void deleteTaskWhenNotFound(){
+        Assertions.assertThatThrownBy(() -> taskServiceImp.delete(0))
+                .isInstanceOf(TaskNotFoundException.class);
+
+        assertThrows(TaskNotFoundException.class, () -> taskServiceImp.delete(0));
     }
 
     private Task createTask(){

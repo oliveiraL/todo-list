@@ -32,7 +32,7 @@ public class Task {
         private State state;
         private Date createdAt;
         private Date updateAt;
-        @OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "task", fetch = FetchType.LAZY)
         private Collection<Comment> comments;
 
 

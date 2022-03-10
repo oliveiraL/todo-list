@@ -6,10 +6,9 @@ import br.com.letscode.todolist.model.Task;
 import br.com.letscode.todolist.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 
@@ -35,6 +34,7 @@ public class TaskService {
     }
 
 
+    @Transactional(rollbackFor = {TaskNotFoundException.class})
     public Task save(Task task) {
         var userId = userContext.getUserId();
         task.setUserId(userId);
@@ -51,7 +51,6 @@ public class TaskService {
     }
 
 
-    @CachePut(cacheNames = "task", key = "#taskId")
     public Task update(Task task, Integer taskId) {
         return taskRepository.findById(taskId)
                 .map(taskOld -> merge(taskOld, task))

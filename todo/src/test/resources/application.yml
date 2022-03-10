@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/tasks
+    password: Postgres2018!
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  database:
+    driverClassName: org.postgresql.Driver
+server:
+  port: '8080'
