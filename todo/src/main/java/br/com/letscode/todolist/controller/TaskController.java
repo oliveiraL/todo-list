@@ -39,14 +39,12 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-//    @Cacheable(value = "task", key = "#id")
-    public TaskDTO getById(@PathVariable  Integer id){
+    public ResponseEntity<TaskDTO> getById(@PathVariable  Integer id){
         var taskDTO = taskMapper.taskToTaskDTO(taskService.getById(id));
-        return taskDTO;
+        return ResponseEntity.ok(taskDTO);
     }
 
     @PostMapping
-//    @CacheEvict(cacheNames = "tasks", allEntries = true)
     public ResponseEntity<TaskDTO> save(@Valid @RequestBody TaskCreateDTO taskCreateDTO){
         var task = taskService.save(taskMapper.taskCreateDTOTOTask(taskCreateDTO));
         return ResponseEntity.ok(taskMapper.taskToTaskDTO(task));
@@ -54,14 +52,12 @@ public class TaskController {
 
 
     @PutMapping("/{id}")
-//    @CacheEvict(cacheNames = "task", key = "#id")
     public ResponseEntity<TaskDTO> update(@Valid @RequestBody TaskCreateDTO taskCreateDTO, @PathVariable  Integer id){
         var task = taskService.update(taskMapper.taskCreateDTOTOTask(taskCreateDTO), id);
         return ResponseEntity.ok(taskMapper.taskToTaskDTO(task));
     }
 
     @DeleteMapping("/{id}")
-//    @CacheEvict(cacheNames = "task", key = "#id")
     public ResponseEntity<Void> delete(@PathVariable  Integer id){
         taskService.delete(id);
         return ResponseEntity.ok().build();

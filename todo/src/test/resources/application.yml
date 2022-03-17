@@ -12,3 +12,6 @@ spring:
     driverClassName: org.postgresql.Driver
 server:
   port: '8080'
+
+jwt:
+  secret: 'test'
